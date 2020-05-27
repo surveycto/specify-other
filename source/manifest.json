@@ -1,0 +1,8 @@
+{
+	"name" : "select_one and select_multiple",
+	"author" : "Dobility",
+	"version": "1.0.3",
+	"supportedFieldTypes": ["select_one", "select_multiple"],
+	"hideDefaultRequiredMessage": false,
+	"hideDefaultConstraintMessage": false
+}
