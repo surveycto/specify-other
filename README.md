@@ -1,22 +1,16 @@
-# Baseline select_one field
-
-![Default appearance for the 'baseline-select_one' field plug-in](extras/baseline-select_one.jpg)
-
-| likert | minimal | quick |
-| --- | --- | --- |
-| <img src="extras/baseline-select_one-likert.jpg" alt="likert appearance" title="likert appearance" width="100px"/> | <img src="extras/baseline-select_one-minimal.jpg" alt="minimal appearance" title="minimal appearance" width="100px"/> | <img src="extras/baseline-select_one-quick.jpg" alt="quick appearance" title="quick appearance" width="100px"/> |
+# Baseline select_one and select_multiple
 
 ## Description
 
-A simple replacement for the default select_one field, plus a few improvements (see below). You can either download and use this as-is, or you can use it as a starting template when creating your own field plug-in for a select_one field.
+This is a combination of the baseline *[select_one](https://github.com/surveycto/baseline-select_one)* and *[select_multiple](https://github.com/surveycto/baseline-select_multiple)* field plug-ins, in case you would like your field plug-in to work with either field type. To learn more, check out those repositories.
 
-[![Download now](extras/download-button.png)](https://github.com/surveycto/baseline-select_one/raw/master/baseline-select_one.fieldplugin.zip)
+[![Download now](extras/download-button.png)](https://github.com/surveycto/select_one-select_multiple/raw/master/so-sm.fieldplugin.zip)
 
 ## Default SurveyCTO feature support
 
 | Feature / Property | Support |
 | --- | --- |
-| Supported field type(s) | `select_one`|
+| Supported field type(s) | `select_one`, `select_multiple`|
 | Default values | Yes |
 | Custom constraint message | Yes |
 | Custom required message | Yes |
@@ -24,17 +18,17 @@ A simple replacement for the default select_one field, plus a few improvements (
 | media:image | Yes |
 | media:audio | Yes |
 | media:video | Yes |
-| `quick` appearance | Yes |
+| `quick` appearance | Yes (`select_one` only) |
 | `minimal` appearance | Yes |
 | `compact` appearance | No |
 | `compact-#` appearance | No |
 | `quickcompact` appearance | No |
 | `quickcompact-#` appearance | No |
-| `likert` appearance | Yes |
-| `likert-min` appearance | Yes* |
+| `likert` appearance | Yes (`select_one` only) |
+| `likert-min` appearance | Yes* (`select_one` only) |
 | `likert-mid` appearance | No |
 
-**Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is a known limitation currently.
+*Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is a known limitation currently.
 
 ## Expanded feature support
 
