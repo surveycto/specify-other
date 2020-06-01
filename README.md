@@ -1,10 +1,14 @@
 # Baseline select_one and select_multiple
 
+|<img src="extras/readme-images/baseline-select_one-likert.jpg" width="100px">|<img src="extras/readma-images/select_multiple.jpg" width="100px">|
+|:---:|:---:|
+|*select_one* likert|*select_multiple*|
+
 ## Description
 
 This is a combination of the baseline *[select_one](https://github.com/surveycto/baseline-select_one)* and *[select_multiple](https://github.com/surveycto/baseline-select_multiple)* field plug-ins, in case you would like your field plug-in to work with either field type. To learn more, check out those repositories.
 
-[![Download now](extras/download-button.png)](https://github.com/surveycto/select_one-select_multiple/raw/master/so-sm.fieldplugin.zip)
+[![Download now](extras/readme-images/download-button.png)](https://github.com/surveycto/select_one-select_multiple/raw/master/select_one-select_multiple.fieldplugin.zip)
 
 ## Default SurveyCTO feature support
 
@@ -19,7 +23,7 @@ This is a combination of the baseline *[select_one](https://github.com/surveycto
 | media:audio | Yes |
 | media:video | Yes |
 | `quick` appearance | Yes (`select_one` only) |
-| `minimal` appearance | Yes |
+| `minimal` appearance | Yes (`select_one` only) |
 | `compact` appearance | No |
 | `compact-#` appearance | No |
 | `quickcompact` appearance | No |
@@ -28,22 +32,11 @@ This is a combination of the baseline *[select_one](https://github.com/surveycto
 | `likert-min` appearance | Yes* (`select_one` only) |
 | `likert-mid` appearance | No |
 
-*Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is a known limitation currently.
-
-## Expanded feature support
-
-In addition to supporting the default SurveyCTO features listed above, this field plug-in offers the following expanded functionality:
-
-1. Support for RTL languages  
-    If your *label*, *hint*, or choice labels are in a language that uses a right-to-left alphabet (like Arabic), they will be right-justified, and the radio buttons will be to the right of the choice labels. If your form contains both right-to-left and left-to-right choice labels, the formatting will respond to the currently-selected form language.
-1. Support for HTML in choice labels  
-    This plug-in will allow HTML in choice labels to be rendered as HTML, even in Collect on Android and iOS.
-1. Support for HTML in field references  
-    If you reference another field's value in either the field *label* or field *hint*, and that referenced value contains HTML, the HTML will be correctly rendered.
+*Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is currently a known limitation.
 
 ## How to use
 
-**To use this plug-in as-is**, just download the [baseline-select_one.fieldplugin.zip](https://github.com/surveycto/baseline-select_one/raw/master/baseline-select_one.fieldplugin.zip) file from this repo, and attach it to your form.
+**To use this plug-in as-is**, just download the [select_one-select_multiple.fieldplugin.zip](https://github.com/surveycto/select_one-select_multiple/raw/master/select_one-select_multiple.fieldplugin.zip) file from this repo, and attach it to your form.
 
 To create your own field plug-in using this as a template, follow these steps:
 
@@ -59,9 +52,8 @@ To create your own field plug-in using this as a template, follow these steps:
 ## More resources
 
 * **Test form**  
-This form will help you explore the differences between this field plug-in and the default text field.  
-[Download test form package](https://github.com/surveycto/baseline-select_one/raw/master/extras/test-form/test-form-package-baseline-select_one.zip)  
-[Instructions for test form](/extras/test-form/README.md)
+This form will help you test to make sure your new field plug-in works with different *select_one* and *select_multiple* fields.
+[Test form files](https://github.com/surveycto/select_one-select_multiple/tree/master/extras/test-form)
 
 * **Developer documentation**  
 Instructions and resources for developing your own field plug-ins.  
