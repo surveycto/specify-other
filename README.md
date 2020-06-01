@@ -1,6 +1,6 @@
 # Baseline select_one and select_multiple
 
-|<img src="extras/readme-images/baseline-select_one-likert.jpg" width="100px">|<img src="extras/readma-images/select_multiple.jpg" width="100px">|
+|<img src="extras/readme-images/baseline-select_one-likert.jpg" width="100px">|<img src="extras/readme-images/select_multiple.jpg" width="100px">|
 |:---:|:---:|
 |*select_one* likert|*select_multiple*|
 
