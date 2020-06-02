@@ -5,9 +5,9 @@ const appearance = fieldProperties.APPEARANCE
 const fieldType = fieldProperties.FIELDTYPE
 const numChoices = choices.length
 
-const radioButtonsContainer = document.getElementById('radio-buttons-container') // default radio buttons
-const selectDropDownContainer = document.getElementById('select-dropdown-container') // minimal appearance
-const likertContainer = document.getElementById('likert-container') // likert
+const radioButtonsContainer = document.querySelector('#radio-buttons-container') // default radio buttons
+const selectDropDownContainer = document.querySelector('#select-dropdown-container') // minimal appearance
+const likertContainer = document.querySelector('#likert-container') // likert
 const choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 
 if (fieldType === 'select_multiple') { // Changes input type
@@ -33,7 +33,7 @@ if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
   likertContainer.style.display = 'flex' // show the likert container
   // likert-min appearance
   if (appearance.includes('likert-min') === true) {
-    const likertChoices = document.getElementsByClassName('likert-choice-container')
+    const likertChoices = document.querySelectorAll('.likert-choice-container')
     for (var i = 1; i < likertChoices.length - 1; i++) {
       likertChoices[i].querySelector('.likert-choice-label').style.display = 'none' // hide all choice labels except the first and last
     }
@@ -51,7 +51,7 @@ if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
   if ((appearance.includes('quick') === true) && (fieldType === 'select_one')) {
     for (var i = 0; i < choiceContainers.length; i++) {
       choiceContainers[i].classList.add('appearance-quick') // add the 'appearance-quick' class
-      choiceContainers[i].getElementsByClassName('choice-label-text')[0].insertAdjacentHTML('beforeend', '<svg class="quick-appearance-icon"><use xlink:href="#quick-appearance-icon" /></svg>') // insert the 'quick' icon
+      choiceContainers[i].querySelectorAll('.choice-label-text')[0].insertAdjacentHTML('beforeend', '<svg class="quick-appearance-icon"><use xlink:href="#quick-appearance-icon" /></svg>') // insert the 'quick' icon
     }
   }
 }
