@@ -10,15 +10,11 @@ const selectDropDownContainer = document.querySelector('#select-dropdown-contain
 const likertContainer = document.querySelector('#likert-container') // likert
 const choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 
-if (fieldType === 'select_multiple') { // Changes input type
+if (fieldType === 'select_one') { // Changes input type
   for (let c = 0; c < numChoices; c++) {
-    const choice = choices[c]
     const container = choiceContainers[c]
     const box = container.querySelector('INPUT')
-    box.type = 'checkbox'
-    if (choice.CHOICE_SELECTED) {
-      box.checked = true
-    }
+    box.type = 'radio'
   }
 }
 
