@@ -11,7 +11,7 @@ const likertContainer = document.querySelector('#likert-container') // likert
 const choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 
 if (fieldType === 'select_one') { // Changes input type
-  for (let c = 0; c < numChoices; c++) {
+  for (var c = 0; c < numChoices; c++) {
     const container = choiceContainers[c]
     const box = container.querySelector('INPUT')
     box.type = 'radio'
@@ -118,7 +118,7 @@ function change () {
     }
   } else {
     const selected = []
-    for (let c = 0; c < numChoices; c++) {
+    for (var c = 0; c < numChoices; c++) {
       if (choiceContainers[c].querySelector('INPUT').checked === true) {
         selected.push(choices[c].CHOICE_VALUE)
       }
@@ -139,4 +139,12 @@ function isRTL (s) {
   var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
 
   return rtlDirCheck.test(s)
+}
+
+String.prototype.includes = function(str) {
+  if(this.indexOf(str) === -1) {
+    return false
+  } else {
+    return true
+  }
 }
