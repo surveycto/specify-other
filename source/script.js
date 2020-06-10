@@ -1,35 +1,35 @@
 /* global fieldProperties, setAnswer, goToNextField */
 
-const choices = fieldProperties.CHOICES
-const appearance = fieldProperties.APPEARANCE
-const fieldType = fieldProperties.FIELDTYPE
-const numChoices = choices.length
+var choices = fieldProperties.CHOICES
+var appearance = fieldProperties.APPEARANCE
+var fieldType = fieldProperties.FIELDTYPE
+var numChoices = choices.length
 
-const radioButtonsContainer = document.querySelector('#radio-buttons-container') // default radio buttons
-const selectDropDownContainer = document.querySelector('#select-dropdown-container') // minimal appearance
-const likertContainer = document.querySelector('#likert-container') // likert
-const choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
+var radioButtonsContainer = document.querySelector('#radio-buttons-container') // default radio buttons
+var selectDropDownContainer = document.querySelector('#select-dropdown-container') // minimal appearance
+var likertContainer = document.querySelector('#likert-container') // likert
+var choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 
 if (fieldType === 'select_one') { // Changes input type
   for (var c = 0; c < numChoices; c++) {
-    const container = choiceContainers[c]
-    const box = container.querySelector('INPUT')
+    var container = choiceContainers[c]
+    var box = container.querySelector('INPUT')
     box.type = 'radio'
   }
 }
 
 // Prepare the current webview, making adjustments for any appearance options
-if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) { // minimal appearance
+if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { // minimal appearance
   radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
   likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
   selectDropDownContainer.style.display = 'block' // show the select dropdown
-} else if ((appearance.includes('likert') === true) && (fieldType === 'select_one')) { // likert appearance
+} else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
   radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
   selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown contrainer
   likertContainer.style.display = 'flex' // show the likert container
   // likert-min appearance
-  if (appearance.includes('likert-min') === true) {
-    const likertChoices = document.querySelectorAll('.likert-choice-container')
+  if (appearance.indexOf('likert-min') !== -1) {
+    var likertChoices = document.querySelectorAll('.likert-choice-container')
     for (var i = 1; i < likertChoices.length - 1; i++) {
       likertChoices[i].querySelector('.likert-choice-label').style.display = 'none' // hide all choice labels except the first and last
     }
@@ -44,7 +44,7 @@ if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
   selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown container
   likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
   // quick appearance
-  if ((appearance.includes('quick') === true) && (fieldType === 'select_one')) {
+  if ((appearance.indexOf('quick') !== -1) && (fieldType === 'select_one')) {
     for (var i = 0; i < choiceContainers.length; i++) {
       choiceContainers[i].classList.add('appearance-quick') // add the 'appearance-quick' class
       choiceContainers[i].querySelectorAll('.choice-label-text')[0].insertAdjacentHTML('beforeend', '<svg class="quick-appearance-icon"><use xlink:href="#quick-appearance-icon" /></svg>') // insert the 'quick' icon
@@ -53,14 +53,14 @@ if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
 }
 
 // minimal appearance
-if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
+if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   selectDropDownContainer.onchange = change // when the select dropdown is changed, call the change() function (which will update the current value)
-} else if ((appearance.includes('likert') === true) && (fieldType === 'select_one')) { // likert appearance
-  const likertButtons = document.querySelectorAll('div[name="opt"]')
+} else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
+  var likertButtons = document.querySelectorAll('div[name="opt"]')
   for (var i = 0; i < likertButtons.length; i++) {
     likertButtons[i].onclick = function () {
       // clear previously selected option (if any)
-      const selectedOption = document.querySelector('.likert-input-button.selected')
+      var selectedOption = document.querySelector('.likert-input-button.selected')
       if (selectedOption) {
         selectedOption.classList.remove('selected')
       }
@@ -69,11 +69,11 @@ if ((appearance.includes('minimal') === true) && (fieldType === 'select_one')) {
     }
   }
 } else { // all other appearances
-  const buttons = document.querySelectorAll('input[name="opt"]')
+  var buttons = document.querySelectorAll('input[name="opt"]')
   for (var i = 0; i < buttons.length; i++) {
     buttons[i].onchange = function () {
       // remove 'selected' class from a previously selected option (if any)
-      const selectedOption = document.querySelector('.choice-container.selected')
+      var selectedOption = document.querySelector('.choice-container.selected')
       if ((selectedOption) && (fieldType === 'select_one')) {
         selectedOption.classList.remove('selected')
       }
@@ -92,15 +92,15 @@ if (fieldProperties.HINT) {
 
 function clearAnswer () {
   // minimal appearance
-  if (appearance.includes('minimal') === true) {
+  if (appearance.indexOf('minimal') !== -1) {
     selectDropDownContainer.value = ''
-  } else if (appearance.includes('likert') === true) { // likert appearance
-    const selectedOption = document.querySelector('.likert-input-button.selected')
+  } else if (appearance.indexOf('likert') !== -1) { // likert appearance
+    var selectedOption = document.querySelector('.likert-input-button.selected')
     if (selectedOption) {
       selectedOption.classList.remove('selected')
     }
   } else { // all other appearances
-    const selectedOption = document.querySelector('input[name="opt"]:checked')
+    var selectedOption = document.querySelector('input[name="opt"]:checked')
     if (selectedOption) {
       selectedOption.checked = false
       selectedOption.parentElement.classList.remove('selected')
@@ -113,11 +113,11 @@ function change () {
   if (fieldType === 'select_one') {
     setAnswer(this.value)
     // If the appearance is 'quick', then also progress to the next field
-    if (appearance.includes('quick') === true) {
+    if (appearance.indexOf('quick') !== -1) {
       goToNextField()
     }
   } else {
-    const selected = []
+    var selected = []
     for (var c = 0; c < numChoices; c++) {
       if (choiceContainers[c].querySelector('INPUT').checked === true) {
         selected.push(choices[c].CHOICE_VALUE)
@@ -139,12 +139,4 @@ function isRTL (s) {
   var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
 
   return rtlDirCheck.test(s)
-}
-
-String.prototype.includes = function(str) {
-  if(this.indexOf(str) === -1) {
-    return false
-  } else {
-    return true
-  }
 }
