@@ -227,6 +227,27 @@
 .likert-min-choice-label-last * {
     text-align: right;
 }
+
+/* label and list-nolabel appearances */
+div.choice-labels table, div.list-nolabel table {
+    width: 100%
+}
+
+.choice-labels, .list-nolabel {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: left;
+}
+
+.fl-label {
+    text-align: left;
+}
+
+.header, .fl-radio {
+    width: 60px;
+    text-align: center;
+}
+
 /*
     ------------------------
     Other global styles

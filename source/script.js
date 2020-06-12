@@ -5,10 +5,15 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
+var labelContainer = document.querySelector('#label')
+var hintContainer = document.querySelector('#hint')
+
 var radioButtonsContainer = document.querySelector('#radio-buttons-container') // default radio buttons
 var selectDropDownContainer = document.querySelector('#select-dropdown-container') // minimal appearance
 var likertContainer = document.querySelector('#likert-container') // likert
 var choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
+var choiceLabelContainer = document.querySelector('#choice-labels')
+var listNoLabelContainer = document.querySelector('#list-nolabel')
 
 if (fieldType === 'select_one') { // Changes input type
   for (var c = 0; c < numChoices; c++) {
@@ -23,6 +28,14 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
   likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
   selectDropDownContainer.style.display = 'block' // show the select dropdown
+} else if (appearance.indexOf('list-nolabel') !== -1) {
+  removeContainer('nolabel')
+  labelContainer.parentElement.removeChild(labelContainer)
+  hintContainer.parentElement.removeChild(hintContainer)
+} else if (appearance.indexOf('label') !== -1) {
+  removeContainer('label')
+  labelContainer.parentElement.removeChild(labelContainer)
+  hintContainer.parentElement.removeChild(hintContainer)
 } else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
   radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
   selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown contrainer
@@ -105,6 +118,29 @@ function clearAnswer () {
       selectedOption.checked = false
       selectedOption.parentElement.classList.remove('selected')
     }
+  }
+}
+
+// Removed the containers that are not to be used
+function removeContainer (keep) {
+  if (keep !== 'radio') {
+    radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
+  }
+
+  if (keep !== 'minimal') {
+    selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown contrainer
+  }
+
+  if (keep !== 'likert') {
+    likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
+  }
+
+  if (keep !== 'label') {
+    choiceLabelContainer.parentElement.removeChild(choiceLabelContainer)
+  }
+
+  if (keep !== 'nolabel') {
+    listNoLabelContainer.parentElement.removeChild(listNoLabelContainer)
   }
 }
 
