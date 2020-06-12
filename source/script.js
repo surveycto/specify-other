@@ -46,7 +46,7 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   removeContainer('nolabel')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
-} else if (appearance.indexOf('label') !== -1) {
+} else if (labelOrLnl) { // If 'label' appearance
   removeContainer('label')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
@@ -164,13 +164,11 @@ function change () {
       goToNextField()
     }
   } else {
-    console.log('Gathering answer')
     var selected = []
     for (var c = 0; c < numChoices; c++) {
       if (choiceContainers[c].querySelector('INPUT').checked === true) {
         selected.push(choices[c].CHOICE_VALUE)
       }
-      console.log(selected)
     }
     setAnswer(selected.join(' '))
   }
