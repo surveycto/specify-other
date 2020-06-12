@@ -8,27 +8,41 @@ var numChoices = choices.length
 var labelContainer = document.querySelector('#label')
 var hintContainer = document.querySelector('#hint')
 
+var choiceContainers // Will eventually contain all choice containers, either from no appearance, or 'list-nolabel' appearance
 var radioButtonsContainer = document.querySelector('#radio-buttons-container') // default radio buttons
 var selectDropDownContainer = document.querySelector('#select-dropdown-container') // minimal appearance
 var likertContainer = document.querySelector('#likert-container') // likert
-var choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
-if (fieldType === 'select_one') { // Changes input type
-  for (var c = 0; c < numChoices; c++) {
-    var container = choiceContainers[c]
-    var box = container.querySelector('INPUT')
-    box.type = 'radio'
+var labelOrLnl
+
+if (appearance.indexOf('label') === -1) {
+  labelOrLnl = false
+} else {
+  labelOrLnl = true
+}
+
+if (labelOrLnl) {
+  choiceContainers = document.querySelectorAll('.fl-radio') // Go through all  the available choices if 'list-nolabel'
+} else {
+  choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
+}
+
+if (!labelOrLnl) {
+  if (fieldProperties.LABEL) {
+    labelContainer.innerHTML = unEntity(fieldProperties.LABEL)
+  }
+  if (fieldProperties.HINT) {
+    hintContainer.innerHTML = unEntity(fieldProperties.HINT)
   }
 }
 
 // Prepare the current webview, making adjustments for any appearance options
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { // minimal appearance
-  radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
-  likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
+  removeContainer('minimal')
   selectDropDownContainer.style.display = 'block' // show the select dropdown
-} else if (appearance.indexOf('list-nolabel') !== -1) {
+} else if (appearance.indexOf('list-nolabel') !== -1) { // list-nolabel appearance
   removeContainer('nolabel')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
@@ -37,8 +51,7 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
 } else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
-  radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
-  selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown contrainer
+  removeContainer('likert')
   likertContainer.style.display = 'flex' // show the likert container
   // likert-min appearance
   if (appearance.indexOf('likert-min') !== -1) {
@@ -50,12 +63,11 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     likertChoices[likertChoices.length - 1].querySelector('.likert-choice-label').classList.add('likert-min-choice-label-last') // apply a special class to the last choice label
   }
 } else { // all other appearances
+  removeContainer('radio')
   if (fieldProperties.LANGUAGE !== null && isRTL(fieldProperties.LANGUAGE)) {
     radioButtonsContainer.dir = 'rtl'
   }
 
-  selectDropDownContainer.parentElement.removeChild(selectDropDownContainer) // remove the select dropdown container
-  likertContainer.parentElement.removeChild(likertContainer) // remove the likert container
   // quick appearance
   if ((appearance.indexOf('quick') !== -1) && (fieldType === 'select_one')) {
     for (var i = 0; i < choiceContainers.length; i++) {
@@ -83,7 +95,13 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 } else { // all other appearances
   var buttons = document.querySelectorAll('input[name="opt"]')
-  for (var i = 0; i < buttons.length; i++) {
+  var numButtons = buttons.length
+  if (fieldType === 'select_one') { // Change to radio buttons if select_one
+    for (var i = 0; i < numButtons; i++) {
+      buttons[i].type = 'radio'
+    }
+  }
+  for (var i = 0; i < numButtons; i++) {
     buttons[i].onchange = function () {
       // remove 'selected' class from a previously selected option (if any)
       var selectedOption = document.querySelector('.choice-container.selected')
@@ -94,13 +112,6 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
       change.apply(this) // call the change() function and tell it which value was selected
     }
   }
-}
-
-if (fieldProperties.LABEL) {
-  document.querySelector('.label').innerHTML = unEntity(fieldProperties.LABEL)
-}
-if (fieldProperties.HINT) {
-  document.querySelector('.hint').innerHTML = unEntity(fieldProperties.HINT)
 }
 
 function clearAnswer () {
@@ -153,11 +164,13 @@ function change () {
       goToNextField()
     }
   } else {
+    console.log('Gathering answer')
     var selected = []
     for (var c = 0; c < numChoices; c++) {
       if (choiceContainers[c].querySelector('INPUT').checked === true) {
         selected.push(choices[c].CHOICE_VALUE)
       }
+      console.log(selected)
     }
     setAnswer(selected.join(' '))
   }
