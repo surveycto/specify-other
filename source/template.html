@@ -1,6 +1,4 @@
-<!--link rel="stylesheet" type="text/css" href="style.css">
-<script src="script.js" charset="UTF-8" defer></script-->
-<div class="label default-question-text-size" dir="auto">{{{LABEL}}}</div>
+<div id="label" class="label default-question-text-size" dir="auto">{{{LABEL}}}</div>
 
 <!-- If there is an image specified in the media:image column, show it here -->
 {{#MEDIAIMAGE}}
@@ -23,7 +21,7 @@
     </video>
 {{/MEDIAVIDEO}}
 
-<div class="hint default-hint-text-size" dir="auto">{{{HINT}}}</div>
+<div id="hint" class="hint default-hint-text-size" dir="auto">{{{HINT}}}</div>
 
 <!-- This is the input area that will be shown by default -->
 <form class="choices-container" id="radio-buttons-container" dir="auto">
@@ -84,6 +82,41 @@
     </label>
   </div>
   {{/CHOICES}}
+</div>
+
+<!-- This is what will be shown if the field has the 'label' appearance -->
+<div class="choice-labels" id="choice-labels">
+  <table>
+    <tr>
+      <td class="fl-label" dir="auto">{{{LABEL}}}</td>
+      {{#CHOICES}}
+      <td class="header" id="choice-{{CHOICE_VALUE}}">
+        {{CHOICE_LABEL}}
+      </td>
+      {{/CHOICES}}
+    </tr>
+  </table>
+</div>
+
+<!-- This is what will be shown if the field has the 'list-nolabel' appearance -->
+<div class="list-nolabel" id="list-nolabel">
+  <table>
+    <tr>
+      <td class="fl-label" dir="auto">{{{LABEL}}}</td>
+      {{#CHOICES}}
+      <td class="fl-radio" id="choice-{{CHOICE_VALUE}}">
+        <input
+               type="checkbox"
+               value="{{CHOICE_VALUE}}"
+               name="opt"
+               class="choice-input"
+               id="{{CHOICE_INDEX}}"
+               {{#CHOICE_SELECTED}}checked="checked" {{/CHOICE_SELECTED}}
+               {{#READONLY}}disabled{{/READONLY}} />
+      </td>
+      {{/CHOICES}}
+    </tr>
+  </table>
 </div>
 
 <!-- You can define svg icons here that you want to use in the rest of the template. In this case, the icon here is what will be used for the 'quick' appearance. -->
