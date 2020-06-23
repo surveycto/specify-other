@@ -8,6 +8,8 @@
 
 This is a combination of the baseline *[select_one](https://github.com/surveycto/baseline-select_one)* and *[select_multiple](https://github.com/surveycto/baseline-select_multiple)* field plug-ins, in case you would like your field plug-in to work with either field type. To learn more, check out those repositories.
 
+In addition, this field plug-in also supports the "label" and "list-nolabel" *appearance*s, so it can be used for creating field list grids. To learn more, check out our documentation on [field lists](https://docs.surveycto.com/02-designing-forms/04-sample-forms/05.field-lists.html).
+
 [![Download now](extras/readme-images/download-button.png)](https://github.com/surveycto/select_one-select_multiple/raw/master/select_one-select_multiple.fieldplugin.zip)
 
 ## Default SurveyCTO feature support
@@ -31,6 +33,9 @@ This is a combination of the baseline *[select_one](https://github.com/surveycto
 | `likert` appearance | Yes (`select_one` only) |
 | `likert-min` appearance | Yes* (`select_one` only) |
 | `likert-mid` appearance | No |
+| `label` appearance | Yes |
+| `list-nolabel` appearance | Yes |
+
 
 *Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is currently a known limitation.
 
