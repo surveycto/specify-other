@@ -124,12 +124,13 @@ function clearAnswer () {
       selectedOption.classList.remove('selected')
     }
   } else { // all other appearances
-    var selectedOption = document.querySelector('input[name="opt"]:checked')
-    if (selectedOption) {
+    for (var b = 0; b < numButtons; b++) {
+      var selectedOption = buttons[b]
       selectedOption.checked = false
       selectedOption.parentElement.classList.remove('selected')
     }
   }
+  setAnswer('')
 }
 
 // Removed the containers that are not to be used
