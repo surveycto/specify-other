@@ -57,8 +57,7 @@ To create your own field plug-in using this as a template, follow these steps:
 ## More resources
 
 * **Test form**  
-This form will help you test to make sure your new field plug-in works with different *select_one* and *select_multiple* fields.
-[Test form files](https://github.com/surveycto/select_one-select_multiple/tree/master/extras/test-form)
+This form will help you test to make sure your new field plug-in works with different *select_one* and *select_multiple* fields. Click [here](https://github.com/surveycto/select_one-select_multiple/blob/master/extras/test-form/Test%20form%20and%20media.zip?raw=true) to download a ZIP file with the test files. Decompress the test file, and there will be a form definition spreadsheet and another ZIP file. Upload that form to your server with that file "media.zip" attached (you do not have to decompress "media.zip", but you can if you'd like).
 
 * **Developer documentation**  
 Instructions and resources for developing your own field plug-ins.  
