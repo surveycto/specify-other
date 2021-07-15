@@ -128,9 +128,9 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
 
 var metadata = getMetaData()
 
-otherInput.value = metadata
+// otherInput.value = metadata
 if ((metadata != null) || (metadata === '')) {
-  otherContainer.style.display = 'inline'
+  showOtherInput()
 }
 
 otherInput.oninput = function () {
@@ -185,12 +185,17 @@ function removeContainer (keep) {
   }
 }
 
+function showOtherInput() {
+  otherContainer.style.display = 'inline'
+  otherInput.focus()
+}
+
 // Save the user's response (update the current answer)
 function change () {
   if (fieldType === 'select_one') {
     selectedValue = this.value
     if (otherValue === selectedValue) {
-      otherContainer.style.display = 'inline'
+      showOtherInput()
       var metadata = getMetaData()
       if ((metadata == null) || (metadata === '')) {
         setAnswer('')
@@ -212,7 +217,7 @@ function change () {
     }
     selectedValue = selected.join(' ')
     if (otherValue === selectedValue) {
-      otherContainer.style.display = 'inline'
+      showOtherInput()
       var metadata = getMetaData()
       if ((metadata == null) || (metadata === '')) {
         setAnswer('')
