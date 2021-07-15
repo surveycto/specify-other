@@ -88,7 +88,10 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   if ((appearance.indexOf('quick') !== -1) && (fieldType === 'select_one')) {
     for (var i = 0; i < choiceContainers.length; i++) {
       choiceContainers[i].classList.add('appearance-quick') // add the 'appearance-quick' class
-      choiceContainers[i].querySelectorAll('.choice-label-text')[0].insertAdjacentHTML('beforeend', '<svg class="quick-appearance-icon"><use xlink:href="#quick-appearance-icon" /></svg>') // insert the 'quick' icon
+
+      if (choices[i].CHOICE_VALUE !== otherValue) { // Don't add icon to "Other" choice
+        choiceContainers[i].querySelectorAll('.choice-label-text')[0].insertAdjacentHTML('beforeend', '<svg class="quick-appearance-icon"><use xlink:href="#quick-appearance-icon" /></svg>') // insert the 'quick' icon
+      }
     }
   }
 }
