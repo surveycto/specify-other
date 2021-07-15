@@ -1,4 +1,4 @@
-/* global fieldProperties, setAnswer, goToNextField */
+/* global fieldProperties, setAnswer, goToNextField, getPluginParameter, getMetaData, setMetaData */
 
 var choices = fieldProperties.CHOICES
 var appearance = fieldProperties.APPEARANCE
@@ -14,6 +14,18 @@ var selectDropDownContainer = document.querySelector('#select-dropdown-container
 var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
+
+var otherContainer = document.querySelector('#other-container')
+var otherInput = document.querySelector('#other-input')
+
+var selectedValue // This stores the currently selected value until it is ready to be set as the field answer
+
+var otherValue = getPluginParameter('other')
+if (otherValue == null) {
+  var lastChoiceValue = choices[numChoices - 1].CHOICE_VALUE
+  otherValue = lastChoiceValue
+}
+otherValue = String(otherValue)
 
 var labelOrLnl
 
@@ -114,6 +126,23 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 }
 
+var metadata = getMetaData()
+
+otherInput.value = metadata
+if ((metadata != null) || (metadata === '')) {
+  otherContainer.style.display = 'inline'
+}
+
+otherInput.oninput = function () {
+  var inputValue = otherInput.value
+  setMetaData(inputValue)
+  if (inputValue.length > 0) {
+    setAnswer(selectedValue)
+  } else {
+    setAnswer('')
+  }
+}
+
 function clearAnswer () {
   // minimal appearance
   if (appearance.indexOf('minimal') !== -1) {
@@ -159,10 +188,20 @@ function removeContainer (keep) {
 // Save the user's response (update the current answer)
 function change () {
   if (fieldType === 'select_one') {
-    setAnswer(this.value)
-    // If the appearance is 'quick', then also progress to the next field
-    if (appearance.indexOf('quick') !== -1) {
-      goToNextField()
+    selectedValue = this.value
+    if (otherValue === selectedValue) {
+      otherContainer.style.display = 'inline'
+      var metadata = getMetaData()
+      if ((metadata == null) || (metadata === '')) {
+        setAnswer('')
+      }
+    } else {
+      otherContainer.style.display = 'none'
+      setAnswer(this.value)
+      // If the appearance is 'quick', then also progress to the next field
+      if (appearance.indexOf('quick') !== -1) {
+        goToNextField()
+      }
     }
   } else {
     var selected = []
@@ -171,7 +210,17 @@ function change () {
         selected.push(choices[c].CHOICE_VALUE)
       }
     }
-    setAnswer(selected.join(' '))
+    selectedValue = selected.join(' ')
+    if (otherValue === selectedValue) {
+      otherContainer.style.display = 'inline'
+      var metadata = getMetaData()
+      if ((metadata == null) || (metadata === '')) {
+        setAnswer('')
+      }
+    } else {
+      otherContainer.style.display = 'none'
+      setAnswer(selectedValue)
+    }
   }
 }
 
