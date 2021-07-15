@@ -77,6 +77,7 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     }
     likertChoices[0].querySelector('.likert-choice-label').classList.add('likert-min-choice-label-first') // apply a special class to the first choice label
     likertChoices[likertChoices.length - 1].querySelector('.likert-choice-label').classList.add('likert-min-choice-label-last') // apply a special class to the last choice label
+    otherInput.style.marginTop = '30px'
   }
 } else { // all other appearances
   removeContainer('radio')
