@@ -5,6 +5,10 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
+if ((fieldProperties.READONLY)) { // So "read only" does nothing
+  function setAnswer () { }
+}
+
 var labelContainer = document.querySelector('#label')
 var hintContainer = document.querySelector('#hint')
 
@@ -128,10 +132,8 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
 
 var metadata = getMetaData()
 
-// otherInput.value = metadata
-if ((metadata != null) || (metadata === '')) {
-  showOtherInput()
-}
+getSelectedChoices()
+otherSelected()
 
 otherInput.oninput = function () {
   var inputValue = otherInput.value
@@ -185,22 +187,38 @@ function removeContainer (keep) {
   }
 }
 
-function showOtherInput() {
-  otherContainer.style.display = 'inline'
-  otherInput.focus()
+function getSelectedChoices () {
+  var selected = []
+  for (var c = 0; c < numChoices; c++) {
+    if (choiceContainers[c].querySelector('INPUT').checked === true) {
+      selected.push(choices[c].CHOICE_VALUE)
+    }
+  }
+  selectedValue = selected.join(' ')
+}
+
+function otherSelected () {
+  if (selectedValue.split(' ').indexOf(otherValue) !== -1) {
+    otherContainer.style.display = 'inline'
+    otherInput.focus()
+    metadata = getMetaData()
+    if ((metadata == null) || (metadata === '')) {
+      setAnswer('')
+    } else {
+      setAnswer(selectedValue)
+    }
+    return true
+  } else {
+    return false
+  }
 }
 
 // Save the user's response (update the current answer)
 function change () {
+  console.log('Changing')
   if (fieldType === 'select_one') {
     selectedValue = this.value
-    if (otherValue === selectedValue) {
-      showOtherInput()
-      var metadata = getMetaData()
-      if ((metadata == null) || (metadata === '')) {
-        setAnswer('')
-      }
-    } else {
+    if (!otherSelected()) {
       otherContainer.style.display = 'none'
       setAnswer(this.value)
       // If the appearance is 'quick', then also progress to the next field
@@ -209,20 +227,8 @@ function change () {
       }
     }
   } else {
-    var selected = []
-    for (var c = 0; c < numChoices; c++) {
-      if (choiceContainers[c].querySelector('INPUT').checked === true) {
-        selected.push(choices[c].CHOICE_VALUE)
-      }
-    }
-    selectedValue = selected.join(' ')
-    if (otherValue === selectedValue) {
-      showOtherInput()
-      var metadata = getMetaData()
-      if ((metadata == null) || (metadata === '')) {
-        setAnswer('')
-      }
-    } else {
+    getSelectedChoices()
+    if (!otherSelected()) {
       otherContainer.style.display = 'none'
       setAnswer(selectedValue)
     }
@@ -241,4 +247,8 @@ function isRTL (s) {
   var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
 
   return rtlDirCheck.test(s)
+}
+
+if ((fieldProperties.READONLY)) { // So "read only" does nothing
+  function setAnswer () { }
 }
