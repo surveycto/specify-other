@@ -53,6 +53,14 @@ Note: For simplicity, in the sample form, the field plug-in metadata is only ret
 |`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of "-1", then when the choice with a *value* of "-1" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
 |`required` (optional)|Normally, if the text box appears, then the enumerator cannot move forward until they enter data into that text box. If this parameter has a value of `0`, then they can leave that text box blank; it will also say "(optional)" in the placeholder text.|
 
+### Special circumstance: Leaving the text box blank
+
+If the field is not [*required*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/05.other-columns.html), and the enumerator selects "Other", it is a good idea for them to enter the "Other" text box value before moving on. That way, they don't have to remember to come back later.
+
+If the "Other" choice is selected, but the text box is left blank, and the `required` parameter is not defined, the field value will not be submitted to the server. The enumerator can go back-and-forth, and even save-and-close and re-open the form later, and the same choices will be selected. But, if the "Other" choice is selected, and they submit the form before the text box has a value, then the field value will become blank, even if it is a *select_multiple* field and other choices were selected.
+
+Of course, if the field itself is *required*, then this will not be an issue, since the enumerator will have to give that text box a value before they can submit the form instance to the server. It is also fine if the `required` parameter has a value of `0`, since then the text box will not be required, and the field value will be saved.
+
 ## Default SurveyCTO feature support
 
 | Feature / Property | Support |
