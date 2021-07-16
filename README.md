@@ -22,9 +22,13 @@ With this field plug-in, you can set it so when a specific choice is selected, a
 
 The field value will be the selected choice.
 
-The data in the text box will be stored in the field plug-in metadata. To retrieve that data, use the [plug-in-metadata() function](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html#plug-in-metadata). For example, if the field with this field plug-in is called "crop_most", then to retrieve the data in the text box, add a *calculate* field with this *calculation*:
+The data in the text box will be stored in the field plug-in metadata. To retrieve that text box data, use this expression:
 
-    plug-in-metadata(${crop_most})
+    item-at('|', plug-in-metadata(${basic_hint-so}), 1)
+
+You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) with that *calculation*. Check out our documenation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn about the functions used.
+
+The item-at() function is used because other data is stored in the metadata for internal purposes. You can simply use the above expression to retrieve the text box data.
 
 If you'd like, you can give that *calculate* field a *[relevance](https://docs.surveycto.com/02-designing-forms/01-core-concepts/08.relevance.html)* expression so that it is only relevant if the "Other" choice was selected. For example, if the "Other" choice has a choice *value* of "-1", you can give the *calculate* field that retreives the metadata this *relevance* expression:
 
@@ -36,17 +40,18 @@ If you'd like, you can give that *calculate* field a *[relevance](https://docs.s
 
 *To use this plug-in as is:*
 
-1. Download the [sample form]() from this repo, as well as the [media files ZIP file](). You can use the sample form as-is, or adjust the parameters to change the behavior (see below).
+1. Download the [sample form](https://github.com/scto-sandbox/other-choice/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/scto-sandbox/other-choice/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior (see below).
 1. Download the other-choice.fieldplugin.zip file from this repo, and attach it to the sample form on your SurveyCTO server.
 1. Upload the sample form to your server, with the media files ZIP file and the field plug-in attached.
 
 Note: For simplicity, in the sample form, the field plug-in metadata is only retrieved for the first field. However, if you have multiple fields using this field plug-in, you can absolutely use the plug-in-metadata() function on each of those fields.
 
-### Parameter
+### Parameters
 
 |Name|Description|
 |:--|:--|
-|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of "-1", then when the choice with a *value* of "-1" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.
+|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of "-1", then when the choice with a *value* of "-1" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
+|`required` (optional)|Normally, if the text box appears, then the enumerator cannot move forward until they enter data into that text box. If this parameter has a value of `0`, then they can leave that text box blank; it will also say "(optional)" in the placeholder text.|
 
 ## Default SurveyCTO feature support
 
@@ -75,9 +80,6 @@ Note: For simplicity, in the sample form, the field plug-in metadata is only ret
 *Note: this plug-in works well for the likert-min appearance when the field label is short, and does not contain an image, audio, or video. This is currently a known limitation.
 
 ## More resources
-
-* **Sample form**  
-Click [here](https://github.com/surveycto/other-choice/blob/master/extras/test-form/Test%20form%20and%20media.zip?raw=true) to download a ZIP file with the test files. Decompress the test file, and there will be a form definition spreadsheet and another ZIP file. Upload that form to your server with that file "media.zip" attached (you do not have to decompress "media.zip", but you can if you'd like).
 
 * **Developer documentation**  
 Instructions and resources for developing your own field plug-ins.  
