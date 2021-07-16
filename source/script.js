@@ -74,6 +74,7 @@ otherInput.setAttribute('value', inputValue)
 otherInput.setAttribute('id', 'other-input')
 otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...')
 otherInput.setAttribute('dir', 'auto')
+otherInput.setAttribute('autocomplete', 'off')
 otherInput.classList.add('response', 'default-answer-text-size')
 otherContainer.appendChild(otherInput)
 
