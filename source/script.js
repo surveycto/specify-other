@@ -19,10 +19,12 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
-var otherContainer = document.querySelector('#other-container')
-var otherInput = document.querySelector('#other-input')
-
 var selectedValue // This stores the currently selected value until it is ready to be set as the field answer
+
+var metadata = getMetaData()
+if (metadata == null) {
+  metadata = ''
+}
 
 var otherValue = getPluginParameter('other')
 if (otherValue == null) {
@@ -30,6 +32,9 @@ if (otherValue == null) {
   otherValue = lastChoiceValue
 }
 otherValue = String(otherValue)
+
+var requireOther = getPluginParameter('require')
+requireOther === 0 ? requireOther = false : requireOther = true
 
 var labelOrLnl
 
@@ -54,18 +59,34 @@ if (!labelOrLnl) {
   }
 }
 
+// Creating the "Other" container that will be added
+var otherContainer = document.createElement('div')
+otherContainer.setAttribute('id', 'other-container')
+otherContainer.style.display = 'none'
+var otherInput = document.createElement('input')
+otherInput.setAttribute('type', 'text')
+otherInput.setAttribute('value', metadata)
+otherInput.setAttribute('id', 'other-input')
+otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...')
+otherInput.setAttribute('dir', 'auto')
+otherInput.classList.add('response', 'default-answer-text-size')
+otherContainer.appendChild(otherInput)
+
 // Prepare the current webview, making adjustments for any appearance options
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { // minimal appearance
   removeContainer('minimal')
   selectDropDownContainer.style.display = 'block' // show the select dropdown
+  selectDropDownContainer.parentElement.insertBefore(otherContainer, selectDropDownContainer.nextSibling)
 } else if (appearance.indexOf('list-nolabel') !== -1) { // list-nolabel appearance
   removeContainer('nolabel')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
+  listNoLabelContainer.parentElement.insertBefore(otherContainer, listNoLabelContainer.nextSibling)
 } else if (labelOrLnl) { // If 'label' appearance
   removeContainer('label')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
+  choiceLabelContainer.parentElement.insertBefore(otherContainer, choiceLabelContainer.nextSibling)
 } else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
   removeContainer('likert')
   likertContainer.style.display = 'flex' // show the likert container
@@ -79,15 +100,31 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     likertChoices[likertChoices.length - 1].querySelector('.likert-choice-label').classList.add('likert-min-choice-label-last') // apply a special class to the last choice label
     otherInput.style.marginTop = '30px'
   }
+  likertContainer.parentElement.insertBefore(otherContainer, likertContainer.nextSibling)
 } else { // all other appearances
   removeContainer('radio')
   if (fieldProperties.LANGUAGE !== null && isRTL(fieldProperties.LANGUAGE)) {
     radioButtonsContainer.dir = 'rtl'
   }
 
+  for (var i = 0; i < numChoices; i++) {
+    var choice = choices[i]
+    console.log('Looking for:', otherValue)
+    console.log(choice.CHOICE_VALUE)
+    if (choice.CHOICE_VALUE === otherValue) {
+      console.log(choice.CHOICE_VALUE)
+      console.log(choiceContainers[i + 1])
+      radioButtonsContainer.insertBefore(otherContainer, choiceContainers[i].nextSibling)
+      break
+    } else if (i + 1 === numChoices) {
+      console.log('Adding to end')
+      radioButtonsContainer.appendChild(otherContainer)
+    }
+  }
+
   // quick appearance
   if ((appearance.indexOf('quick') !== -1) && (fieldType === 'select_one')) {
-    for (var i = 0; i < choiceContainers.length; i++) {
+    for (var i = 0; i < numChoices; i++) {
       choiceContainers[i].classList.add('appearance-quick') // add the 'appearance-quick' class
 
       if (choices[i].CHOICE_VALUE !== otherValue) { // Don't add icon to "Other" choice
@@ -134,18 +171,18 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 }
 
-var metadata = getMetaData()
-
 getSelectedChoices()
 otherSelected()
 
 otherInput.oninput = function () {
   var inputValue = otherInput.value
   setMetaData(inputValue)
-  if (inputValue.length > 0) {
-    setAnswer(selectedValue)
-  } else {
-    setAnswer('')
+  if (requireOther) {
+    if ((inputValue.length > 0)) {
+      setAnswer(selectedValue)
+    } else {
+      setAnswer('')
+    }
   }
 }
 
@@ -206,7 +243,7 @@ function otherSelected () {
     otherContainer.style.display = 'inline'
     otherInput.focus()
     metadata = getMetaData()
-    if ((metadata == null) || (metadata === '')) {
+    if (requireOther && ((metadata == null) || (metadata === ''))) {
       setAnswer('')
     } else {
       setAnswer(selectedValue)
