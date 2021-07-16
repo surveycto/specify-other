@@ -19,11 +19,16 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
-var selectedValue // This stores the currently selected value until it is ready to be set as the field answer
-
 var metadata = getMetaData()
+var selectedChoices
+var inputValue
 if (metadata == null) {
   metadata = ''
+  selectedChoices = []
+  inputValue = ''
+} else {
+  [selectedChoices, inputValue] = metadata.split('|')
+  selectedChoices = selectedChoices.split(' ')
 }
 
 var otherValue = getPluginParameter('other')
@@ -33,7 +38,7 @@ if (otherValue == null) {
 }
 otherValue = String(otherValue)
 
-var requireOther = getPluginParameter('require')
+var requireOther = getPluginParameter('required')
 requireOther === 0 ? requireOther = false : requireOther = true
 
 var labelOrLnl
@@ -65,7 +70,7 @@ otherContainer.setAttribute('id', 'other-container')
 otherContainer.style.display = 'none'
 var otherInput = document.createElement('input')
 otherInput.setAttribute('type', 'text')
-otherInput.setAttribute('value', metadata)
+otherInput.setAttribute('value', inputValue)
 otherInput.setAttribute('id', 'other-input')
 otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...')
 otherInput.setAttribute('dir', 'auto')
@@ -109,11 +114,9 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
 
   for (var i = 0; i < numChoices; i++) {
     var choice = choices[i]
-    console.log('Looking for:', otherValue)
-    console.log(choice.CHOICE_VALUE)
-    if (choice.CHOICE_VALUE === otherValue) {
-      console.log(choice.CHOICE_VALUE)
-      console.log(choiceContainers[i + 1])
+    var choiceValue = choice.CHOICE_VALUE
+
+    if (choiceValue === otherValue) {
       radioButtonsContainer.insertBefore(otherContainer, choiceContainers[i].nextSibling)
       break
     } else if (i + 1 === numChoices) {
@@ -153,12 +156,32 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
 } else { // all other appearances
   var buttons = document.querySelectorAll('input[name="opt"]')
   var numButtons = buttons.length
+
+  if (selectedChoices.indexOf(choiceValue) !== -1) {
+    buttons[i].checked = true
+  } else {
+    
+  }
+
   if (fieldType === 'select_one') { // Change to radio buttons if select_one
     for (var i = 0; i < numButtons; i++) {
       buttons[i].type = 'radio'
+      var choiceValue = choices[i].CHOICE_VALUE
+      if (selectedChoices.indexOf(choiceValue) !== -1) {
+        buttons[i].checked = true
+      } else {
+        buttons[i].checked = false
+      }
     }
   }
   for (var i = 0; i < numButtons; i++) {
+    var choiceValue = choices[i].CHOICE_VALUE
+    if (selectedChoices.indexOf(choiceValue) !== -1) {
+      buttons[i].checked = true
+    } else {
+      buttons[i].checked = false
+    }
+    
     buttons[i].onchange = function () {
       // remove 'selected' class from a previously selected option (if any)
       var selectedOption = document.querySelector('.choice-container.selected')
@@ -175,11 +198,11 @@ getSelectedChoices()
 otherSelected()
 
 otherInput.oninput = function () {
-  var inputValue = otherInput.value
-  setMetaData(inputValue)
+  inputValue = otherInput.value
+  setMetaData(selectedChoices + '|' + inputValue)
   if (requireOther) {
     if ((inputValue.length > 0)) {
-      setAnswer(selectedValue)
+      setAnswer(selectedChoices)
     } else {
       setAnswer('')
     }
@@ -235,18 +258,18 @@ function getSelectedChoices () {
       selected.push(choices[c].CHOICE_VALUE)
     }
   }
-  selectedValue = selected.join(' ')
+  selectedChoices = selected.join(' ')
 }
 
 function otherSelected () {
-  if (selectedValue.split(' ').indexOf(otherValue) !== -1) {
+  if (selectedChoices.split(' ').indexOf(otherValue) !== -1) {
     otherContainer.style.display = 'inline'
     otherInput.focus()
     metadata = getMetaData()
-    if (requireOther && ((metadata == null) || (metadata === ''))) {
+    if (requireOther && (inputValue === '')) {
       setAnswer('')
     } else {
-      setAnswer(selectedValue)
+      setAnswer(selectedChoices)
     }
     return true
   } else {
@@ -258,7 +281,7 @@ function otherSelected () {
 function change () {
   console.log('Changing')
   if (fieldType === 'select_one') {
-    selectedValue = this.value
+    selectedChoices = String(this.value)
     if (!otherSelected()) {
       otherContainer.style.display = 'none'
       setAnswer(this.value)
@@ -271,9 +294,10 @@ function change () {
     getSelectedChoices()
     if (!otherSelected()) {
       otherContainer.style.display = 'none'
-      setAnswer(selectedValue)
+      setAnswer(selectedChoices)
     }
   }
+  setMetaData(selectedChoices + '|' + inputValue)
 }
 
 // If the field label or hint contain any HTML that isn't in the form definition, then the < and > characters will have been replaced by their HTML character entities, and the HTML won't render. We need to turn those HTML entities back to actual < and > characters so that the HTML renders properly. This will allow you to render HTML from field references in your field label or hint.
