@@ -6,7 +6,7 @@ var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
 if ((fieldProperties.READONLY)) { // So "read only" does nothing
-  function setAnswer () { }
+  function setAnswer () {}
 }
 
 var labelContainer = document.querySelector('#label')
@@ -251,8 +251,4 @@ function isRTL (s) {
   var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
 
   return rtlDirCheck.test(s)
-}
-
-if ((fieldProperties.READONLY)) { // So "read only" does nothing
-  function setAnswer () { }
 }
