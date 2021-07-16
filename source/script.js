@@ -157,12 +157,6 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   var buttons = document.querySelectorAll('input[name="opt"]')
   var numButtons = buttons.length
 
-  if (selectedChoices.indexOf(choiceValue) !== -1) {
-    buttons[i].checked = true
-  } else {
-    
-  }
-
   if (fieldType === 'select_one') { // Change to radio buttons if select_one
     for (var i = 0; i < numButtons; i++) {
       buttons[i].type = 'radio'
@@ -181,7 +175,7 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
     } else {
       buttons[i].checked = false
     }
-    
+
     buttons[i].onchange = function () {
       // remove 'selected' class from a previously selected option (if any)
       var selectedOption = document.querySelector('.choice-container.selected')
