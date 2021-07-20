@@ -12,6 +12,8 @@ With this field plug-in, when a specific choice is selected, a text box appears 
 
 [![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/other-choice/raw/master/other-input.fieldplugin.zip)
 
+*This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
+
 ## Features
 
 * Able to enter a text response when a specific choice is selected (often called the "Other" choice).
