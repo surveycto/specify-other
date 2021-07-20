@@ -10,7 +10,7 @@
 
 With this field plug-in, when a specific choice is selected, a text box appears where the enumerator can enter a text response. This is helpful for fields that have an "Other" choice, so the enumerator can enter the "Other" response right on the same page. This works with both [*select_one*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03h.field-types-select-one.html) and [*select_multiple*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03i.field-types-select-multiple.html) fields.
 
-[![Download now](extras/readme-images/download-button.png)](https://github.com/surveycto/other-choice/raw/master/other-choice.fieldplugin.zip)
+[![Download now](extras/readme-images/download-button.png)](https://github.com/surveycto/other-choice/raw/master/other-input.fieldplugin.zip)
 
 ## Features
 
@@ -41,8 +41,8 @@ The metadata will store the data in the text box, even if the text box is hidden
 
 *To use this plug-in as is:*
 
-1. Download the [sample form](https://github.com/scto-sandbox/other-choice/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/scto-sandbox/other-choice/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
-1. Download the [other-choice.fieldplugin.zip](https://github.com/surveycto/other-choice/raw/master/other-choice.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
+1. Download the [sample form](https://github.com/surveycto/other-choice/raw/master/extras/sample-form/Other%20choice%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/surveycto/other-choice/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
+1. Download the [other-choice.fieldplugin.zip](https://github.com/surveycto/other-choice/raw/master/other-input.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
 1. Upload the sample form to your server, with the media files ZIP file and the field plug-in attached.
 
 Note: For simplicity, in the sample form, the field plug-in metadata is only retrieved for the first field. However, if multiple fields use this field plug-in, you can absolutely add multiple *calculate* fields that use the plug-in-metadata() function, so you can retrieve the "Other" data for each of those fields.
