@@ -1,0 +1,9 @@
+# Leaving the text box blank
+
+If the field is not [*required*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/05.other-columns.html) (different than the `required` parameter), and the enumerator selects "Other", it is a good idea for them to enter the "Other" text box value before moving on. That way, they don't have to remember to come back later.
+
+If the "Other" choice is selected, but the text box is left blank, and the `required` parameter is not defined, the field value will not be submitted to the server. The enumerator can go back-and-forth, and even save-and-close and re-open the form later, and the same choices will be selected. But, if the "Other" choice is selected, and they submit the form before the text box has a value, then the field value will become blank, even if it is a *select_multiple* field and other choices were selected.
+
+For example, let's say a *select_multiple* field is not *required*, it uses this field plug-in, and it is set up so that when the choice "Other" is selected, the text box appears. If the enumerator selects the choices "Apples" and "Other", but they do not enter data into the "Other" text box that appears. They then move forward in the form, and submit the data to the server. For that form instance, that *select_multiple* field value will be blank, since the "Other" text box required data, but none was provided.
+
+Of course, if the field itself is *required*, then this will not be an issue, since the enumerator will have to give that text box a value before they can submit the form instance to the server. It is also fine if the `required` parameter has a value of `0`, since then the text box will not be required, and the field value will be saved.
