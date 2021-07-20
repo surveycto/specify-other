@@ -10,7 +10,7 @@
 
 With this field plug-in, when a specific choice is selected, a text box appears where the enumerator can enter a text response. This is helpful for fields that have an "Other" choice, so the enumerator can enter the "Other" response right on the same page. This works with both [*select_one*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03h.field-types-select-one.html) and [*select_multiple*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03i.field-types-select-multiple.html) fields.
 
-[![Download now](extras/readme-images/download-button.png)](https://github.com/surveycto/other-choice/raw/master/other-input.fieldplugin.zip)
+[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/other-choice/raw/master/other-input.fieldplugin.zip)
 
 ## Features
 
@@ -18,6 +18,12 @@ With this field plug-in, when a specific choice is selected, a text box appears 
 * Customize which choice will make the text box appear.
 * Text box appears right below "Other" choice when selected.
 * All of the capabilities of the [select_one-select_multiple](https://github.com/surveycto/select_one-select_multiple/blob/master/README.md) field plug-in.
+
+### Requirements
+
+Android: Android 7 or up
+
+iOS and web browsers: Because web browsers and iOS devices are kept more up-to-date with the latest features, nearly all web browsers and iOS devices should support the field plug-in, but test it on your collection device beforehand to be sure.
 
 ## Data format
 
