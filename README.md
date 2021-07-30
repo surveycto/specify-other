@@ -1,8 +1,8 @@
 # Other choice
 
-<img src="extras/readme-images/text_box_revealed.png" width="300px">
+<img src="extras/readme-images/entered_text.png" width="300px" alt="Entered text">
 
-|<img src="extras/readme-images/blank_box.png" width="100px">|<img src="extras/readme-images/main_choice.png" width="100px">|
+|<img src="extras/readme-images/blank_box.png" width="100px" alt="Waiting for text">|<img src="extras/readme-images/apples_selected.png" width="100px" alt="Main choice selected">|
 |:---:|:---:|
 |Waiting for text||Main choice selected|
 
