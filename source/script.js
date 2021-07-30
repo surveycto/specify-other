@@ -27,23 +27,23 @@ if (metadata == null) {
   selectedChoices = []
   inputValue = ''
 } else {
-  [selectedChoices, inputValue] = metadata.split('|')
+  [selectedChoices, inputValue] = metadata.split('|') // This is in case the enumerator left the field before entering text into the text box, so the answer wasn't saved
   selectedChoices = selectedChoices.split(' ')
 }
 
-var otherValue = getPluginParameter('other')
+var otherValue = getPluginParameter('other') // Get choice value that is used as "Other"
 if (otherValue == null) {
-  var lastChoiceValue = choices[numChoices - 1].CHOICE_VALUE
+  var lastChoiceValue = choices[numChoices - 1].CHOICE_VALUE // Use last choice if none given
   otherValue = lastChoiceValue
 }
 otherValue = String(otherValue)
 
 var requireOther = getPluginParameter('required')
-requireOther === 0 ? requireOther = false : requireOther = true
+requireOther === 0 ? requireOther = false : requireOther = true // If the "Other" text box needs data if the "Other" choice is selected
 
 var labelOrLnl
 
-if (appearance.indexOf('label') === -1) {
+if (appearance.indexOf('label') === -1) { // If "label" or "list-nolabel" appearance
   labelOrLnl = false
 } else {
   labelOrLnl = true
@@ -55,7 +55,7 @@ if (labelOrLnl) {
   choiceContainers = document.querySelectorAll('.choice-container') // go through all the available choices
 }
 
-if (!labelOrLnl) {
+if (!labelOrLnl) { // There is a different box for these, so not for "label" or "list-nolabel"
   if (fieldProperties.LABEL) {
     labelContainer.innerHTML = unEntity(fieldProperties.LABEL)
   }
@@ -82,17 +82,17 @@ otherContainer.appendChild(otherInput)
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { // minimal appearance
   removeContainer('minimal')
   selectDropDownContainer.style.display = 'block' // show the select dropdown
-  selectDropDownContainer.parentElement.insertBefore(otherContainer, selectDropDownContainer.nextSibling)
+  selectDropDownContainer.parentElement.insertBefore(otherContainer, selectDropDownContainer.nextSibling) // Add other box
 } else if (appearance.indexOf('list-nolabel') !== -1) { // list-nolabel appearance
   removeContainer('nolabel')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
-  listNoLabelContainer.parentElement.insertBefore(otherContainer, listNoLabelContainer.nextSibling)
+  listNoLabelContainer.parentElement.insertBefore(otherContainer, listNoLabelContainer.nextSibling) // Add other box
 } else if (labelOrLnl) { // If 'label' appearance
   removeContainer('label')
   labelContainer.parentElement.removeChild(labelContainer)
   hintContainer.parentElement.removeChild(hintContainer)
-  choiceLabelContainer.parentElement.insertBefore(otherContainer, choiceLabelContainer.nextSibling)
+  choiceLabelContainer.parentElement.insertBefore(otherContainer, choiceLabelContainer.nextSibling) // Add other box
 } else if ((appearance.indexOf('likert') !== -1) && (fieldType === 'select_one')) { // likert appearance
   removeContainer('likert')
   likertContainer.style.display = 'flex' // show the likert container
@@ -106,23 +106,21 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     likertChoices[likertChoices.length - 1].querySelector('.likert-choice-label').classList.add('likert-min-choice-label-last') // apply a special class to the last choice label
     otherInput.style.marginTop = '30px'
   }
-  likertContainer.parentElement.insertBefore(otherContainer, likertContainer.nextSibling)
+  likertContainer.parentElement.insertBefore(otherContainer, likertContainer.nextSibling) // Add other box
 } else { // all other appearances
   removeContainer('radio')
   if (fieldProperties.LANGUAGE !== null && isRTL(fieldProperties.LANGUAGE)) {
     radioButtonsContainer.dir = 'rtl'
   }
 
+  // Cycle through to add the "Other" box
   for (var i = 0; i < numChoices; i++) {
     var choice = choices[i]
     var choiceValue = choice.CHOICE_VALUE
 
-    if (choiceValue === otherValue) {
-      radioButtonsContainer.insertBefore(otherContainer, choiceContainers[i].nextSibling)
+    if (choiceValue === otherValue) { // When finds the choice specified for the other choice, adds the container below that
+      radioButtonsContainer.insertBefore(otherContainer, choiceContainers[i].nextSibling) // Add other box
       break
-    } else if (i + 1 === numChoices) {
-      console.log('Adding to end')
-      radioButtonsContainer.appendChild(otherContainer)
     }
   }
 
@@ -171,13 +169,13 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
   for (var i = 0; i < numButtons; i++) {
     var choiceValue = choices[i].CHOICE_VALUE
-    if (selectedChoices.indexOf(choiceValue) !== -1) {
+    if (selectedChoices.indexOf(choiceValue) !== -1) { // Selects choice in display if choice is already selected (for returning to field)
       buttons[i].checked = true
     } else {
       buttons[i].checked = false
     }
 
-    buttons[i].onchange = function () {
+    buttons[i].onchange = function () { // Detector for when choice is selected
       // remove 'selected' class from a previously selected option (if any)
       var selectedOption = document.querySelector('.choice-container.selected')
       if ((selectedOption) && (fieldType === 'select_one')) {
@@ -189,13 +187,14 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
   }
 }
 
-getSelectedChoices()
-otherSelected()
+getSelectedChoices() // Get selected choices and store in "selectedChoices" for later use
+otherSelected() // Show text box if "Other" choice selected
 
+// Detects whene text is entered into the "Other" box
 otherInput.oninput = function () {
   inputValue = otherInput.value
-  setMetaData(selectedChoices + '|' + inputValue)
-  if (requireOther) {
+  setMetaData(selectedChoices + '|' + inputValue) // Saves metadata so if the enumerator leaves when the box is blank, then the selected choices are still selected
+  if (requireOther) { // Only set answer if not required, or text is in box
     if ((inputValue.length > 0)) {
       setAnswer(selectedChoices)
     } else {
@@ -246,6 +245,7 @@ function removeContainer (keep) {
   }
 }
 
+// Gather selected choices, saving them in "selectedChoices", which will be used in setAnswer() when ready.
 function getSelectedChoices () {
   var selected = []
   for (var c = 0; c < numChoices; c++) {
@@ -256,6 +256,7 @@ function getSelectedChoices () {
   selectedChoices = selected.join(' ')
 }
 
+// Check the currently selected choices, and if "Other" choice is selected, displays the box, and will set answer if text box either not required or has data
 function otherSelected () {
   if (selectedChoices.split(' ').indexOf(otherValue) !== -1) {
     otherContainer.style.display = 'inline'
@@ -277,7 +278,7 @@ function change () {
   console.log('Changing')
   if (fieldType === 'select_one') {
     selectedChoices = String(this.value)
-    if (!otherSelected()) {
+    if (!otherSelected()) { // If "Other" choice selected, then there are different circumstances for setting answer
       otherContainer.style.display = 'none'
       setAnswer(this.value)
       // If the appearance is 'quick', then also progress to the next field
@@ -287,12 +288,12 @@ function change () {
     }
   } else {
     getSelectedChoices()
-    if (!otherSelected()) {
+    if (!otherSelected()) { // Hide "Other" box if "Other" choice not selected
       otherContainer.style.display = 'none'
       setAnswer(selectedChoices)
     }
   }
-  setMetaData(selectedChoices + '|' + inputValue)
+  setMetaData(selectedChoices + '|' + inputValue) // Save data in metadata in case answer not yet set.
 }
 
 // If the field label or hint contain any HTML that isn't in the form definition, then the < and > characters will have been replaced by their HTML character entities, and the HTML won't render. We need to turn those HTML entities back to actual < and > characters so that the HTML renders properly. This will allow you to render HTML from field references in your field label or hint.
