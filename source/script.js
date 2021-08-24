@@ -19,9 +19,9 @@ var likertContainer = document.querySelector('#likert-container') // likert
 var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
-var metadata = getMetaData()
-var selectedChoices
-var inputValue
+var metadata = getMetaData() // Metadata combines the previously selected choices with the "other" value. That way, if the enumerator leaves before the answer is actually set, the field will be populated with what they had previously entered.
+var selectedChoices // Array of the values of the currently selected choices. Will store them until they are ready to be applied to setAnswer()
+var inputValue // Current text in the "other" text box
 if (metadata == null) {
   metadata = ''
   selectedChoices = []
@@ -31,19 +31,18 @@ if (metadata == null) {
   selectedChoices = selectedChoices.split(' ')
 }
 
-var otherValue = getPluginParameter('other') // Get choice value that is used as "Other"
+var otherValue = getPluginParameter('other') // Get choice value that is used as "other", so know where to put the box, and when selected this choice is selected, the box will appear.
 if (otherValue == null) {
   var lastChoiceValue = choices[numChoices - 1].CHOICE_VALUE // Use last choice if none given
   otherValue = lastChoiceValue
 }
-otherValue = String(otherValue)
+otherValue = String(otherValue) // Make string, since choice values are stored as strings
 
 var requireOther = getPluginParameter('required')
-requireOther === 0 ? requireOther = false : requireOther = true // If the "Other" text box needs data if the "Other" choice is selected
+requireOther === 0 ? requireOther = false : requireOther = true // If "requireOther" is true, then the "other" text box needs data if the "other" choice is selected
 
-var labelOrLnl
-
-if (appearance.indexOf('label') === -1) { // If "label" or "list-nolabel" appearance
+var labelOrLnl // Whether it is "label" or "list-nolabel" appearance
+if (appearance.indexOf('label') === -1) {
   labelOrLnl = false
 } else {
   labelOrLnl = true
@@ -72,7 +71,7 @@ var otherInput = document.createElement('textarea')
 otherInput.setAttribute('type', 'text')
 otherInput.setAttribute('value', inputValue)
 otherInput.setAttribute('id', 'other-input')
-otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...')
+otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...') // Add "optional" if not required
 otherInput.setAttribute('dir', 'auto')
 otherInput.setAttribute('autocomplete', 'off')
 otherInput.classList.add('response', 'default-answer-text-size')
@@ -113,7 +112,8 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     radioButtonsContainer.dir = 'rtl'
   }
 
-  // Cycle through to add the "Other" box
+  // ADDING "OTHER" BOX
+  // Cycle through to add the "Other" box below the correct choice
   for (var i = 0; i < numChoices; i++) {
     var choice = choices[i]
     var choiceValue = choice.CHOICE_VALUE
@@ -136,6 +136,8 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
   }
 }
 
+// START RESIZING TOOLS
+
 var hiddenDiv = document.querySelector('.hidden-text')
 var hiddenText = hiddenDiv.querySelector('p')
 
@@ -143,6 +145,8 @@ hiddenDiv.style.width = otherInput.offsetWidth + 'px'
 
 otherInput.addEventListener('input', resizeTextBox)
 window.onload = resizeTextBox
+
+// END RESIZING TOOLS
 
 // minimal appearance
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
@@ -241,7 +245,7 @@ function clearAnswer () {
   setAnswer('')
 }
 
-// Removed the containers that are not to be used
+// Remove the containers that are not to be used
 function removeContainer (keep) {
   if (keep !== 'radio') {
     radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
@@ -279,7 +283,7 @@ function getSelectedChoices () {
 function otherSelected () {
   if (selectedChoices.split(' ').indexOf(otherValue) !== -1) {
     otherContainer.style.display = 'inline'
-    otherInput.focus()
+    otherInput.focus() // Go right to box when selected
     metadata = getMetaData()
     if (requireOther && (inputValue === '')) {
       setAnswer('')
