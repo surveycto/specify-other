@@ -5,7 +5,7 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
-if ((fieldProperties.READONLY)) { // So "read only" does nothing
+if ((fieldProperties.READONLY)) { // So "read only" does nothing when setting answer
   function setAnswer () {}
 }
 
@@ -197,8 +197,10 @@ otherInput.oninput = function () {
   if (requireOther) { // Only set answer if not required, or text is in box
     if ((inputValue.length > 0)) {
       setAnswer(selectedChoices)
+      otherInput.classList.remove('blinking')
     } else {
       setAnswer('')
+      otherInput.classList.add('blinking')
     }
   }
 }
@@ -264,8 +266,10 @@ function otherSelected () {
     metadata = getMetaData()
     if (requireOther && (inputValue === '')) {
       setAnswer('')
+      otherInput.classList.add('blinking')
     } else {
       setAnswer(selectedChoices)
+      otherInput.classList.remove('blinking')
     }
     return true
   } else {
