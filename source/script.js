@@ -68,7 +68,7 @@ if (!labelOrLnl) { // There is a different box for these, so not for "label" or 
 var otherContainer = document.createElement('div')
 otherContainer.setAttribute('id', 'other-container')
 otherContainer.style.display = 'none'
-var otherInput = document.createElement('input')
+var otherInput = document.createElement('textarea')
 otherInput.setAttribute('type', 'text')
 otherInput.setAttribute('value', inputValue)
 otherInput.setAttribute('id', 'other-input')
@@ -135,6 +135,14 @@ if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) { //
     }
   }
 }
+
+var hiddenDiv = document.querySelector('.hidden-text')
+var hiddenText = hiddenDiv.querySelector('p')
+
+hiddenDiv.style.width = otherInput.offsetWidth + 'px'
+
+otherInput.addEventListener('input', resizeTextBox)
+window.onload = resizeTextBox
 
 // minimal appearance
 if ((appearance.indexOf('minimal') !== -1) && (fieldType === 'select_one')) {
@@ -203,6 +211,15 @@ otherInput.oninput = function () {
       otherInput.classList.add('blinking')
     }
   }
+}
+
+function resizeTextBox () {
+  hiddenDiv.style.display = 'block'
+  hiddenDiv.style.width = otherInput.offsetWidth + 'px' // In case the window is reshaped
+  hiddenText.innerHTML = otherInput.value.replaceAll('\n', '<br>&8203;') // The &8203; is a zero-width space, so that there is content on a blank line. This is so a blank line with nothing after it actually takes effect
+  var newHeight = hiddenDiv.offsetHeight
+  hiddenDiv.style.display = 'none'
+  otherInput.style.height = newHeight + 'px'
 }
 
 function clearAnswer () {

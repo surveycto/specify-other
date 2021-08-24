@@ -291,12 +291,33 @@ div.choice-labels table, div.list-nolabel table {
 
 /* For the "other" text box that sometimes appears */
 
+:root {
+  --padding: .5rem;
+}
+
 .response {
   border: 1px solid #047CC2;
   box-sizing: border-box;
   margin: .5rem 0;
-  padding: .5rem;
+  padding: var(--padding);
+  resize: none;
   width: 100%;
+}
+
+div.hidden-text {
+  display: none;
+  visibility: hidden;
+}
+
+div.hidden-text p {
+  padding: calc(var(--padding) + 1px);
+}
+
+/* For these, you can change these to whatever you want, as long as both classes share these properties */
+.response, div.hidden-text {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  min-height: 36px;
 }
 
 .response.blinking {
