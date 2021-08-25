@@ -5,8 +5,8 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
-if ((fieldProperties.READONLY)) { // So "read only" does nothing when setting answer
-  function setAnswer () {}
+if (fieldProperties.READONLY) { // So "read only" does nothing when setting answer
+  var setAnswer = function () {}
 }
 
 var labelContainer = document.querySelector('#label')
