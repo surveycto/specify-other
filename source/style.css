@@ -310,25 +310,41 @@ div.hidden-text {
 }
 
 div.hidden-text p {
-  padding: calc(var(--padding) + 1px);
+  padding: calc(var(--padding) + 2px);
 }
 
 /* For these, you can change these to whatever you want, as long as both classes share these properties */
 .response, div.hidden-text {
   font-family: Arial, sans-serif;
   font-size: 16px;
-  min-height: 36px;
+  min-height: 38px;
+}
+
+.response {
+  outline: none;
+  border-style: solid;
+}
+
+.response:not(:focus) {
+  border-width: 1px;
+}
+
+.response:focus {
+  border-width: 2px;
+  border-radius: 3px;
+}
+
+.response:not(.blinking) {
+  border-color: #047CC2;
 }
 
 .response.blinking {
   animation: blinking 1s steps(1) infinite;
   border-color: #f56954;
-  outline-color: #f56954;
 }
 
 @keyframes blinking {
   50% {
-    border: 1px solid #047CC2;
-    outline-color: #047CC2;
+    border-color: #047CC2;
   }
 }
