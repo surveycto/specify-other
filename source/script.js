@@ -5,8 +5,8 @@ var appearance = fieldProperties.APPEARANCE
 var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
-if ((fieldProperties.READONLY)) { // So "read only" does nothing when setting answer
-  function setAnswer () {}
+if (fieldProperties.READONLY) { // So "read only" does nothing when setting answer
+  var setAnswer = function () {}
 }
 
 var labelContainer = document.querySelector('#label')
@@ -300,7 +300,6 @@ function otherSelected () {
 
 // Save the user's response (update the current answer)
 function change () {
-  console.log('Changing')
   if (fieldType === 'select_one') {
     selectedChoices = String(this.value)
     if (!otherSelected()) { // If "Other" choice selected, then there are different circumstances for setting answer
