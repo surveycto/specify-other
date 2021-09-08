@@ -300,7 +300,6 @@ function otherSelected () {
 
 // Save the user's response (update the current answer)
 function change () {
-  console.log('Changing')
   if (fieldType === 'select_one') {
     selectedChoices = String(this.value)
     if (!otherSelected()) { // If "Other" choice selected, then there are different circumstances for setting answer
