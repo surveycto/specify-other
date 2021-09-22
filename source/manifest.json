@@ -1,5 +1,5 @@
 {
-	"name" : "Other input",
+	"name" : "Specify other",
 	"author" : "Dobility",
 	"version": "1.0.0",
 	"supportedFieldTypes": ["select_one", "select_multiple"],
