@@ -16,6 +16,8 @@ To learn more about "other" responses in SurveyCTO, check out our support articl
 
 *This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
 
+*An older version of this field plug-in was called "other-input", but there is no difference between the old version and the new version other than the name. The sample form has been updated with the new name.*
+
 ## Features
 
 * Able to enter a text response when a specific choice is selected (often called the "Other" choice).
