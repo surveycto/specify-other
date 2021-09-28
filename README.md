@@ -39,7 +39,7 @@ The data in the text box will be stored in the field plug-in metadata. To retrie
 
     item-at('|', plug-in-metadata(${basic_hint-so}), 1)
 
-You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) with that *calculation*. Check out our documenation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn about the functions used.
+You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) with that *calculation*. Check out our documentation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn about the functions used.
 
 The item-at() function is used because other data is stored in the metadata for internal purposes. You can use the above expression to retrieve just the text box data.
 
