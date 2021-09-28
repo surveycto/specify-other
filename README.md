@@ -43,9 +43,9 @@ You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/
 
 The item-at() function is used because other data is stored in the metadata for internal purposes. You can use the above expression to retrieve just the text box data.
 
-The metadata will store the data in the text box, even if the text box is hidden (such as if "Other" was previously selected). If you'd like, you can give that *calculate* field a *[relevance](https://docs.surveycto.com/02-designing-forms/01-core-concepts/08.relevance.html)* expression so that it is only relevant if the "Other" choice was selected. For example, if the "Other" choice has a choice *value* of "-1", you can give the *calculate* field that retreives the metadata this *relevance* expression:
+The metadata will store the data in the text box, even if the text box is hidden (such as if "Other" was previously selected). If you'd like, you can give that *calculate* field a *[relevance](https://docs.surveycto.com/02-designing-forms/01-core-concepts/08.relevance.html)* expression so that it is only relevant if the "Other" choice was selected. For example, if the "Other" choice has a choice *value* of "97", you can give the *calculate* field that retreives the metadata this *relevance* expression:
 
-    selected(${crop_most}, '-1')
+    selected(${crop_most}, '97')
 
 ## How to use
 
@@ -63,7 +63,7 @@ Note: For simplicity, in the sample form, the field plug-in metadata is only ret
 
 |Name|Description|
 |:--|:--|
-|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of `'-1'`, then when the choice with a *value* of "-1" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
+|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of `'97'`, then when the choice with a *value* of "97" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
 |`required` (optional)|Normally, if the text box appears, then the enumerator cannot move forward until they enter data into that text box. If this parameter has a value of `0`, then they can leave that text box blank, since it is not required; it will also say "(optional)" in the placeholder text.|
 
 ### Special circumstance: Leaving the text box blank
