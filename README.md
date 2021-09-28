@@ -51,7 +51,7 @@ The metadata will store the data in the text box, even if the text box is hidden
 
 *To use this plug-in as is:*
 
-1. Download the [sample form](https://github.com/surveycto/specify-other/raw/master/extras/sample-form/Other%20input%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/surveycto/specify-other/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
+1. Download the [sample form](https://github.com/surveycto/specify-other/raw/master/extras/sample-form/Specify%20other%20sample%20form.xlsx) from this repo, as well as the [media files ZIP file](https://github.com/surveycto/specify-other/raw/master/extras/sample-form/media.zip). You can use the sample form as-is, or adjust the parameters to change the behavior ([see below](#parameters)).
 1. Download the [specify-other.fieldplugin.zip](https://github.com/surveycto/specify-other/raw/master/specify-other.fieldplugin.zip) file from this repo, and attach it to the sample form on your SurveyCTO server.
 1. Upload the sample form to your server, with the media files ZIP file and the field plug-in attached.
 
