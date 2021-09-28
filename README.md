@@ -16,6 +16,8 @@ To learn more about "other" responses in SurveyCTO, check out our support articl
 
 *This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
 
+*An older version of this field plug-in was called "other-input", but there is no difference between the old version and the new version other than the name. The sample form has been updated with the new name.*
+
 ## Features
 
 * Able to enter a text response when a specific choice is selected (often called the "Other" choice).
@@ -37,13 +39,13 @@ The data in the text box will be stored in the field plug-in metadata. To retrie
 
     item-at('|', plug-in-metadata(${basic_hint-so}), 1)
 
-You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) with that *calculation*. Check out our documenation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn about the functions used.
+You can add a [*calculate* field](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03zb.field-types-calculate.html) with that *calculation*. Check out our documentation on [using expressions](https://docs.surveycto.com/02-designing-forms/01-core-concepts/09.expressions.html) to learn about the functions used.
 
 The item-at() function is used because other data is stored in the metadata for internal purposes. You can use the above expression to retrieve just the text box data.
 
-The metadata will store the data in the text box, even if the text box is hidden (such as if "Other" was previously selected). If you'd like, you can give that *calculate* field a *[relevance](https://docs.surveycto.com/02-designing-forms/01-core-concepts/08.relevance.html)* expression so that it is only relevant if the "Other" choice was selected. For example, if the "Other" choice has a choice *value* of "-1", you can give the *calculate* field that retreives the metadata this *relevance* expression:
+The metadata will store the data in the text box, even if the text box is hidden (such as if "Other" was previously selected). If you'd like, you can give that *calculate* field a *[relevance](https://docs.surveycto.com/02-designing-forms/01-core-concepts/08.relevance.html)* expression so that it is only relevant if the "Other" choice was selected. For example, if the "Other" choice has a choice *value* of "97", you can give the *calculate* field that retreives the metadata this *relevance* expression:
 
-    selected(${crop_most}, '-1')
+    selected(${crop_most}, '97')
 
 ## How to use
 
@@ -61,7 +63,7 @@ Note: For simplicity, in the sample form, the field plug-in metadata is only ret
 
 |Name|Description|
 |:--|:--|
-|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of `'-1'`, then when the choice with a *value* of "-1" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
+|`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of `'97'`, then when the choice with a *value* of "97" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
 |`required` (optional)|Normally, if the text box appears, then the enumerator cannot move forward until they enter data into that text box. If this parameter has a value of `0`, then they can leave that text box blank, since it is not required; it will also say "(optional)" in the placeholder text.|
 
 ### Special circumstance: Leaving the text box blank
