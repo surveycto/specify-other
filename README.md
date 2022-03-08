@@ -10,6 +10,8 @@
 
 With this field plug-in, when a specific choice is selected, a text box appears where the enumerator can enter a text response. This is helpful for fields that have an "Other" choice, so the enumerator can enter the "Other" response right on the same page. This works with both [*select_one*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03h.field-types-select-one.html) and [*select_multiple*](https://docs.surveycto.com/02-designing-forms/01-core-concepts/03i.field-types-select-multiple.html) fields.
 
+<table><tr><td><strong>Important</strong>: Make sure you add a field to retrieve the metadata, or the text box data will not be available in the data export. See <em><a href="#data-format">Data format</a></em> below for more info.</td></tr></table>
+
 To learn more about "other" responses in SurveyCTO, check out our support article on [creating an open response field after a multiple choice question that asks users to "specify other"](https://support.surveycto.com/hc/en-us/articles/219910787).
 
 [![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/specify-other/raw/master/specify-other.fieldplugin.zip)
