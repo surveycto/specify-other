@@ -333,3 +333,12 @@ function isRTL (s) {
 
   return rtlDirCheck.test(s)
 }
+
+String.prototype.replaceAll = function (searchFor, replaceWith) {
+  var original = this
+  while (original.includes(searchFor)) {
+    original = original.replace(searchFor, replaceWith)
+  }
+
+  return original
+}
