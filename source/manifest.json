@@ -1,7 +1,7 @@
 {
 	"name" : "Specify other",
 	"author" : "Dobility",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"supportedFieldTypes": ["select_one", "select_multiple"],
 	"hideDefaultRequiredMessage": false,
 	"hideDefaultConstraintMessage": false
