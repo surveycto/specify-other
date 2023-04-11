@@ -14,11 +14,7 @@ With this field plug-in, when a specific choice is selected, a text box appears 
 
 To learn more about "other" responses in SurveyCTO, check out our support article on [creating an open response field after a multiple choice question that asks users to "specify other"](https://support.surveycto.com/hc/en-us/articles/219910787).
 
-[![Download now](extras/readme-images/beta-release-download.jpeg)](https://github.com/surveycto/specify-other/raw/master/specify-other.fieldplugin.zip)
-
-*This plug-in is currently under beta. If you you find a problem with the field plug-in, please email support@surveycto.com, or submit an issue to this GitHub repo.*
-
-*An older version of this field plug-in was called "other-input", but there is no difference between the old version and the new version other than the name. The sample form has been updated with the new name.*
+[![Download](extras/readme-images/download-button.png)](https://github.com/surveycto/specify-other/raw/master/specify-other.fieldplugin.zip)
 
 ## Features
 
