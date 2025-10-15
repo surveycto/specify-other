@@ -6,7 +6,7 @@ var fieldType = fieldProperties.FIELDTYPE
 var numChoices = choices.length
 
 if (fieldProperties.READONLY) { // So "read only" does nothing when setting answer
-  var setAnswer = function () {}
+  var setAnswer = function () { }
 }
 
 var labelContainer = document.querySelector('#label')
@@ -41,6 +41,8 @@ otherValue = String(otherValue) // Make string, since choice values are stored a
 var requireOther = getPluginParameter('required')
 requireOther === 0 ? requireOther = false : requireOther = true // If "requireOther" is true, then the "other" text box needs data if the "other" choice is selected
 
+var placeholderText = getPluginParameter('placeholder') // Get custom placeholder text for the "other" text box
+
 var labelOrLnl // Whether it is "label" or "list-nolabel" appearance
 if (appearance.indexOf('label') === -1) {
   labelOrLnl = false
@@ -70,7 +72,25 @@ otherContainer.style.display = 'none'
 var otherInput = document.createElement('textarea')
 otherInput.setAttribute('type', 'text')
 otherInput.setAttribute('id', 'other-input')
-otherInput.setAttribute('placeholder', 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...') // Add "optional" if not required
+
+// Set placeholder text
+if (placeholderText !== undefined) {
+  if (placeholderText === '') {
+    // Empty string means no placeholder
+    otherInput.placeholder = ''
+  } else {
+    // Use custom placeholder text, adding "(optional)" if not required
+    otherInput.placeholder = placeholderText + (requireOther ? '' : ' (optional)')
+  }
+} else {
+  // Use default behavior
+  if (fieldProperties.QUESTION_PLACEHOLDER_LABEL) {
+    otherInput.placeholder = fieldProperties.QUESTION_PLACEHOLDER_LABEL + (requireOther ? '' : ' (optional)')
+  } else {
+    otherInput.placeholder = 'Enter other response here' + (requireOther ? '' : ' (optional)') + '...'
+  }
+}
+
 otherInput.setAttribute('dir', 'auto')
 otherInput.setAttribute('autocomplete', 'off')
 otherInput.appendChild(document.createTextNode(inputValue))
@@ -217,7 +237,7 @@ otherInput.oninput = function () {
   }
 }
 
-function resizeTextBox () {
+function resizeTextBox() {
   hiddenDiv.style.display = 'block'
   hiddenDiv.style.width = otherInput.offsetWidth + 'px' // In case the window is reshaped
   hiddenText.innerHTML = otherInput.value.replaceAll('\n', '<br>&8203;') // The &8203; is a zero-width space, so that there is content on a blank line. This is so a blank line with nothing after it actually takes effect
@@ -226,7 +246,7 @@ function resizeTextBox () {
   otherInput.style.height = newHeight + 'px'
 }
 
-function clearAnswer () {
+function clearAnswer() {
   // minimal appearance
   if (appearance.indexOf('minimal') !== -1) {
     selectDropDownContainer.value = ''
@@ -246,7 +266,7 @@ function clearAnswer () {
 }
 
 // Remove the containers that are not to be used
-function removeContainer (keep) {
+function removeContainer(keep) {
   if (keep !== 'radio') {
     radioButtonsContainer.parentElement.removeChild(radioButtonsContainer) // remove the default radio buttons
   }
@@ -269,7 +289,7 @@ function removeContainer (keep) {
 }
 
 // Gather selected choices, saving them in "selectedChoices", which will be used in setAnswer() when ready.
-function getSelectedChoices () {
+function getSelectedChoices() {
   var selected = []
   for (var c = 0; c < numChoices; c++) {
     if (choiceContainers[c].querySelector('INPUT').checked === true) {
@@ -280,7 +300,7 @@ function getSelectedChoices () {
 }
 
 // Check the currently selected choices, and if "Other" choice is selected, displays the box, and will set answer if text box either not required or has data
-function otherSelected () {
+function otherSelected() {
   if (selectedChoices.split(' ').indexOf(otherValue) !== -1) {
     otherContainer.style.display = 'inline'
     otherInput.focus() // Go right to box when selected
@@ -299,7 +319,7 @@ function otherSelected () {
 }
 
 // Save the user's response (update the current answer)
-function change () {
+function change() {
   if (fieldType === 'select_one') {
     selectedChoices = String(this.value)
     if (!otherSelected()) { // If "Other" choice selected, then there are different circumstances for setting answer
@@ -321,12 +341,12 @@ function change () {
 }
 
 // If the field label or hint contain any HTML that isn't in the form definition, then the < and > characters will have been replaced by their HTML character entities, and the HTML won't render. We need to turn those HTML entities back to actual < and > characters so that the HTML renders properly. This will allow you to render HTML from field references in your field label or hint.
-function unEntity (str) {
+function unEntity(str) {
   return str.replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 }
 
 // Detect right-to-left languages
-function isRTL (s) {
+function isRTL(s) {
   var ltrChars = 'A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02B8\u0300-\u0590\u0800-\u1FFF' + '\u2C00-\uFB1C\uFDFE-\uFE6F\uFEFD-\uFFFF'
   var rtlChars = '\u0591-\u07FF\uFB1D-\uFDFD\uFE70-\uFEFC'
   var rtlDirCheck = new RegExp('^[^' + ltrChars + ']*[' + rtlChars + ']')
