@@ -63,6 +63,7 @@ Note: For simplicity, in the sample form, the field plug-in metadata is only ret
 |:--|:--|
 |`other` (optional)|The *value* of the choice where if it is selected, then the text box will appear. For example, if this parameter has a value of `'97'`, then when the choice with a *value* of "97" is selected, the text box will appear. If this parameter has no value, then the last choice in the choice list will be used.|
 |`required` (optional)|Normally, if the text box appears, then the enumerator cannot move forward until they enter data into that text box. If this parameter has a value of `0`, then they can leave that text box blank, since it is not required; it will also say "(optional)" in the placeholder text.|
+|`placeholder` (optional)|Custom placeholder text to show in the "Other" text box. Use an empty string (`''`) to show no placeholder. If not specified, uses the default SurveyCTO placeholder text or "Enter other response here..." in English. The text "(optional)" is automatically added to the placeholder when the `required` parameter is set to `0`. Supports field references like `${field_name}`.|
 
 ### Special circumstance: Leaving the text box blank
 
