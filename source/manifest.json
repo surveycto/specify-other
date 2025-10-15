@@ -1,8 +1,11 @@
 {
-	"name" : "Specify other",
-	"author" : "Dobility",
-	"version": "1.0.1",
-	"supportedFieldTypes": ["select_one", "select_multiple"],
+	"name": "Specify other",
+	"author": "Dobility",
+	"version": "1.1.0",
+	"supportedFieldTypes": [
+		"select_one",
+		"select_multiple"
+	],
 	"hideDefaultRequiredMessage": false,
 	"hideDefaultConstraintMessage": false
 }
