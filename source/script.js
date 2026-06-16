@@ -20,12 +20,23 @@ var choiceLabelContainer = document.querySelector('#choice-labels')
 var listNoLabelContainer = document.querySelector('#list-nolabel')
 
 var metadata = getMetaData() // Metadata combines the previously selected choices with the "other" value. That way, if the enumerator leaves before the answer is actually set, the field will be populated with what they had previously entered.
+var defaultOther = getPluginParameter('defaultother') // Optional: text to pre-fill the "other" box on first load (when there is no saved metadata yet)
 var selectedChoices // Array of the values of the currently selected choices. Will store them until they are ready to be applied to setAnswer()
 var inputValue // Current text in the "other" text box
-if (metadata == null) {
-  metadata = ''
-  selectedChoices = []
-  inputValue = ''
+if (metadata == null || metadata === '') {
+  // No saved plug-in metadata yet: this is a fresh load or a dynamic/preloaded default value.
+  // SurveyCTO defaults, calculations, and preloads populate the field answer (CURRENT_ANSWER), not
+  // the plug-in metadata, so seed our state from CURRENT_ANSWER (and the defaultother parameter).
+  var currentAnswer = fieldProperties.CURRENT_ANSWER
+  if (currentAnswer != null && String(currentAnswer) !== '') {
+    selectedChoices = String(currentAnswer).split(' ') // space-separated for select_multiple; single token for select_one
+  } else {
+    selectedChoices = []
+  }
+  inputValue = (defaultOther != null) ? String(defaultOther) : '' // seed the "other" box from the defaultother parameter
+  if (selectedChoices.length > 0 || inputValue !== '') {
+    setMetaData(selectedChoices.join(' ') + '|' + inputValue) // persist the seed so it survives leaving the field before any edit
+  }
 } else {
   [selectedChoices, inputValue] = metadata.split('|') // This is in case the enumerator left the field before entering text into the text box, so the answer wasn't saved
   selectedChoices = selectedChoices.split(' ')
