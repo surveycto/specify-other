@@ -25,13 +25,15 @@ var selectedChoices // Array of the values of the currently selected choices. Wi
 var inputValue // Current text in the "other" text box
 if (metadata == null || metadata === '') {
   // No saved plug-in metadata yet: this is a fresh load or a dynamic/preloaded default value.
-  // SurveyCTO defaults, calculations, and preloads populate the field answer (CURRENT_ANSWER), not
-  // the plug-in metadata, so seed our state from CURRENT_ANSWER (and the defaultother parameter).
-  var currentAnswer = fieldProperties.CURRENT_ANSWER
-  if (currentAnswer != null && String(currentAnswer) !== '') {
-    selectedChoices = String(currentAnswer).split(' ') // space-separated for select_multiple; single token for select_one
-  } else {
-    selectedChoices = []
+  // For select_one/select_multiple, fieldProperties.CURRENT_ANSWER is NOT a documented field
+  // property (the API reference exposes the answer only through CHOICES[].CHOICE_SELECTED). The
+  // host marks the current answer — including default values, dynamic defaults, and preloads — on
+  // each choice via CHOICE_SELECTED, so seed the selection from there.
+  selectedChoices = []
+  for (var ci = 0; ci < numChoices; ci++) {
+    if (choices[ci].CHOICE_SELECTED) {
+      selectedChoices.push(String(choices[ci].CHOICE_VALUE))
+    }
   }
   inputValue = (defaultOther != null) ? String(defaultOther) : '' // seed the "other" box from the defaultother parameter
   if (selectedChoices.length > 0 || inputValue !== '') {
