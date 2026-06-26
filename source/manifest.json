@@ -1,7 +1,7 @@
 {
 	"name": "Specify other",
 	"author": "Dobility",
-	"version": "1.1.0",
+	"version": "1.2.1",
 	"supportedFieldTypes": [
 		"select_one",
 		"select_multiple"
